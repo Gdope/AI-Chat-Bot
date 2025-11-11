@@ -28,17 +28,22 @@ const ChatBotApp = ({
       text: inputValue,
       timestamp: new Date().toLocaleTimeString(),
     };
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
-    setInputValue("");
+    if (!activeChat) {
+      onNewChat(inputValue);
+      setInputValue("");
+    } else {
+      const updatedMessages = [...messages, newMessage];
+      setMessages(updatedMessages);
+      setInputValue("");
 
-    const updatedChats = chats.map((chat) => {
-      if (chat.id === activeChat) {
-        return { ...chat, messages: updatedMessages };
-      }
-      return chat;
-    });
-    setChats(updatedChats);
+      const updatedChats = chats.map((chat) => {
+        if (chat.id === activeChat) {
+          return { ...chat, messages: updatedMessages };
+        }
+        return chat;
+      });
+      setChats(updatedChats);
+    }
   };
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -85,14 +90,6 @@ const ChatBotApp = ({
             ></i>
           </div>
         ))}
-        <div className="chat-list-item">
-          <h4>Chat 10/11/2025 21:20:42 PM</h4>
-          <i className="bx bx-x-circle"></i>
-        </div>
-        <div className="chat-list-item">
-          <h4>Chat 10/11/2025 21:20:42 PM</h4>
-          <i className="bx bx-x-circle"></i>
-        </div>
       </div>
       <div className="chat-window">
         <div className="chat-title">
